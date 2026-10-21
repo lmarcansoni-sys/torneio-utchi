@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Inscritas · 2º Torneio Utchi</title>
+<meta name="description" content="Duplas inscritas no 2º Torneio de Beach Tennis da Utchi. Domingo, 15/11, na On Beach Sports, Farroupilha/RS.">
+<meta property="og:title" content="Inscritas · 2º Torneio Utchi">
+<meta property="og:description" content="Beach Tennis · 15/11, domingo · On Beach Sports, Farroupilha/RS">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 182 120'%3E%3Crect x='-10' y='-10' width='182' height='120' fill='%23111'/%3E%3Cpath fill='%23fff' d='M0,0 H20.8 V55 A24.2 24.2 0 0 0 45,79.2 H97.2 V0 H118 V100 H45 A45 45 0 0 1 0,55 Z M136,17 A13 13 0 1 0 162,17 A13 13 0 1 0 136,17 Z M136,50 A13 13 0 1 0 162,50 A13 13 0 1 0 136,50 Z M136,83 A13 13 0 1 0 162,83 A13 13 0 1 0 136,83 Z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&display=swap">
+<style>
+/* Ficha do torneio em preto e branco: marca, título, placar, chamada para inscrição e duplas por categoria. */
+:root{
+  --bg:#ffffff; --ink:#111111; --muted:#6b6b68; --line:#e2e2df; --soft:#f2f2f0;
+  --invert-bg:#111111; --invert-ink:#ffffff;
+  --font:"Albert Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0f0f0f; --ink:#f4f4f2; --muted:#9a9a96; --line:#2a2a28; --soft:#181817; --invert-bg:#f4f4f2; --invert-ink:#111111; color-scheme:dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding-block:max(28px, env(safe-area-inset-top, 0px)) max(64px, env(safe-area-inset-bottom, 0px));padding-left:max(18px, env(safe-area-inset-left, 0px));padding-right:max(18px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:40px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.logo{height:22px;width:auto;display:block;color:var(--ink)}
+.refresh{display:flex;align-items:center;gap:12px}
+.stamp{font-size:12px;color:var(--muted)}
+.icon-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn svg{width:15px;height:15px}
+.icon-btn.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hero{display:flex;flex-direction:column;gap:14px}
+.eyebrow{display:flex;align-items:center;gap:14px;font-size:13px;letter-spacing:.32em;text-transform:uppercase;font-weight:500}
+.eyebrow::before{content:"";width:44px;height:1px;background:var(--ink)}
+h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:15px}
+.meta b{color:var(--ink);font-weight:500}
+
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.stat{padding:18px 18px 20px 0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.stat + .stat{padding-left:18px;border-left:1px solid var(--line)}
+.label{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.num{font-size:clamp(34px,6vw,54px);font-weight:300;line-height:1;font-variant-numeric:tabular-nums}
+.sub{font-size:12.5px;color:var(--muted)}
+
+.cta{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;background:var(--invert-bg);color:var(--invert-ink);border-radius:20px;padding:22px 24px}
+.cta p{margin:0;font-size:17px;max-width:46ch}
+.cta p span{display:block;font-size:13px;opacity:.7;margin-top:2px}
+.cta a{display:inline-flex;align-items:center;gap:8px;background:var(--invert-ink);color:var(--invert-bg);text-decoration:none;border-radius:999px;padding:12px 20px;font-weight:500;font-size:14px;white-space:nowrap}
+.cta a:hover{opacity:.9}
+.cta.closed a{display:none}
+
+.cats{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--invert-bg);color:var(--invert-ink);border-color:var(--invert-bg)}
+
+.list{display:flex;flex-direction:column;gap:36px}
+.group-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--ink)}
+.group-head h2{margin:0;font-size:22px;font-weight:500}
+.group-head span{font-size:13px;color:var(--muted)}
+.pairs{list-style:none;margin:0;padding:0}
+.pair{display:grid;grid-template-columns:44px minmax(0,1fr) 28px minmax(0,1fr);align-items:baseline;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.ord{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.name{font-size:17px;font-weight:500;overflow-wrap:anywhere}
+.amp{color:var(--muted);text-align:center;font-weight:300}
+
+.state{border:1px dashed var(--line);border-radius:18px;padding:36px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.state h2{margin:0;font-size:20px;font-weight:500}
+.state p{margin:0;color:var(--muted);max-width:50ch}
+.sk{height:14px;border-radius:7px;background:var(--soft)}
+
+.foot{display:flex;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--muted)}
+.foot .slogan{letter-spacing:.32em;text-transform:uppercase}
+.foot a{color:inherit}
+
+@media (max-width:640px){
+  .board{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(3){grid-column:1 / -1;padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .pair{grid-template-columns:34px minmax(0,1fr);gap:2px 10px}
+  .pair .amp{display:none}
+  .pair .name.b{grid-column:2;font-weight:400;color:var(--muted)}
+  .pair .name.b::before{content:"& ";color:var(--muted)}
+}
+@media (prefers-reduced-motion: reduce){ .icon-btn.spin svg{animation:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <svg class="logo" viewBox="0 0 514.846 100" role="img" aria-label="Utchi">
+      <path fill="currentColor" d="M0,0.98 L14.006,0.98 L14.006,63.305 C14.006,68.908 15.079,73.553 17.227,77.241 C19.374,80.929 22.316,83.637 26.05,85.364 C29.785,87.092 33.987,87.955 38.655,87.955 C43.417,87.955 47.642,87.092 51.331,85.364 C55.019,83.637 57.937,80.929 60.084,77.241 C62.232,73.553 63.305,68.908 63.305,63.305 L63.305,0.98 L77.311,0.98 L77.311,63.025 C77.311,69.374 76.261,74.86 74.16,79.482 C72.059,84.104 69.164,87.932 65.476,90.966 C61.788,94.001 57.633,96.265 53.011,97.759 C48.389,99.253 43.557,100 38.515,100 C31.793,100 25.49,98.669 19.608,96.008 C13.725,93.347 8.987,89.286 5.392,83.824 C1.797,78.361 0,71.429 0,63.025 L0,0.98 Z"/>
+      <path fill="currentColor" d="M121.569,0.98 L196.639,0.98 L196.499,12.745 L166.106,12.745 L165.966,99.02 L152.101,99.02 L152.241,12.745 L121.429,12.745 L121.569,0.98 Z"/>
+      <path fill="currentColor" d="M232.913,50 C232.913,42.624 234.174,35.878 236.695,29.762 C239.216,23.646 242.717,18.371 247.199,13.936 C251.681,9.5 256.886,6.069 262.815,3.641 C268.744,1.214 275.163,0 282.073,0 C291.877,0 300.63,2.288 308.333,6.863 C316.036,11.438 321.895,18.021 325.91,26.611 L314.706,30.672 C312.465,26.284 309.617,22.736 306.162,20.028 C302.708,17.32 298.926,15.313 294.818,14.006 C290.71,12.698 286.555,12.045 282.353,12.045 C275.724,12.045 269.725,13.585 264.356,16.667 C258.987,19.748 254.785,24.136 251.751,29.832 C248.716,35.528 247.199,42.25 247.199,50 C247.199,57.656 248.716,64.332 251.751,70.028 C254.785,75.724 258.987,80.135 264.356,83.263 C269.725,86.391 275.724,87.955 282.353,87.955 C286.648,87.955 290.896,87.255 295.098,85.854 C299.3,84.454 303.221,82.19 306.863,79.062 C310.504,75.934 313.492,71.849 315.826,66.807 L327.031,70.728 C322.829,80.626 316.807,87.979 308.964,92.787 C301.12,97.596 292.157,100 282.073,100 C275.163,100 268.744,98.786 262.815,96.359 C256.886,93.931 251.681,90.476 247.199,85.994 C242.717,81.513 239.216,76.214 236.695,70.098 C234.174,63.982 232.913,57.283 232.913,50 Z"/>
+      <path fill="currentColor" d="M373.529,0.98 L387.395,0.98 L387.255,43.417 L436.695,43.417 L436.695,0.98 L450.56,0.98 L450.56,99.02 L436.695,99.02 L436.695,55.182 L387.395,55.182 L387.255,99.02 L373.389,99.02 L373.529,0.98 Z"/>
+      <path fill="currentColor" d="M500.84,0.98 V99.02 H514.846 V0.98 Z"/>
+    </svg>
+    <div class="refresh">
+      <span class="stamp" id="stamp">Carregando…</span>
+      <button class="icon-btn" id="refreshBtn" type="button" aria-label="Atualizar lista">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        Atualizar
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">2º Torneio Utchi</div>
+    <h1>Inscritas</h1>
+    <div class="meta">
+      <span><b>Beach Tennis</b></span>
+      <span>15.11, domingo</span>
+      <span>On Beach Sports · Farroupilha/RS</span>
+    </div>
+  </section>
+
+  <section class="board" aria-label="Resumo">
+    <div class="stat"><span class="label">Duplas</span><span class="num" id="sDuplas">–</span><span class="sub">inscritas até agora</span></div>
+    <div class="stat"><span class="label">Atletas</span><span class="num" id="sAtletas">–</span><span class="sub">em quadra no dia 15</span></div>
+    <div class="stat"><span class="label">Inscrições</span><span class="num" id="sPrazo">–</span><span class="sub" id="sPrazoSub">até 10/11, terça</span></div>
+  </section>
+
+  <section class="cta" id="cta">
+    <p>Ainda dá tempo de entrar com a sua dupla.<span>R$ 120,00 por atleta, com regata Utchi Dry Fit e brindes no kit.</span></p>
+    <a href="https://tally.so/r/1WA9l4" target="_blank" rel="noopener">Fazer inscrição ↗</a>
+  </section>
+
+  <nav class="cats" id="cats" aria-label="Categorias"></nav>
+  <section class="list" id="list" aria-live="polite"></section>
+
+  <footer class="foot">
+    <span>Lista atualizada automaticamente a partir das inscrições. Parte do valor vai para a AMAFA.</span>
+    <span class="slogan">A vida em movimento</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  /* Link CSV da aba "publico" da planilha (Arquivo → Compartilhar → Publicar na Web). */
+  const CSV_URL = "";
+  const DEADLINE = "2026-11-10";
+  const CATS = ["B","C","D","Iniciante"];
+  const AUTO_MS = 120000;
+
+  const $ = (id) => document.getElementById(id);
+  const state = { rows: null, cat: "Todas", loading: false, last: null };
+
+  function el(tag, cls, text){ const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function norm(s){ return (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim(); }
+  function title(s){ return (s || "").trim().replace(/\s+/g, " "); }
+
+  function parseCSV(text){
+    const rows = []; let row = [], cell = "", q = false;
+    for (let i = 0; i < text.length; i++){
+      const ch = text[i];
+      if (q){
+        if (ch === '"'){ if (text[i+1] === '"'){ cell += '"'; i++; } else q = false; }
+        else cell += ch;
+      } else if (ch === '"') q = true;
+      else if (ch === ","){ row.push(cell); cell = ""; }
+      else if (ch === "\n"){ row.push(cell); rows.push(row); row = []; cell = ""; }
+      else if (ch !== "\r") cell += ch;
+    }
+    if (cell !== "" || row.length){ row.push(cell); rows.push(row); }
+    return rows;
+  }
+
+  function toRows(csv){
+    const grid = parseCSV(csv).filter(r => r.some(c => c.trim() !== ""));
+    if (!grid.length) return [];
+    const head = grid[0].map(norm);
+    let iNome = head.findIndex(h => h.includes("seu nome") || h === "nome");
+    let iDupla = head.findIndex(h => h.includes("dupla") && !h.includes("whats") && !h.includes("tamanho"));
+    let iCat = head.findIndex(h => h.includes("categoria"));
+    let body = grid.slice(1);
+    if (iNome < 0 || iCat < 0){ iNome = 0; iDupla = 1; iCat = 2; body = grid; }
+    return body
+      .map(r => ({ a: title(r[iNome]), b: title(r[iDupla]), cat: title((r[iCat] || "").replace(/^categoria\s+/i, "")) }))
+      .filter(r => r.a && !/^teste\b/i.test(r.a) && !/^teste\b/i.test(r.b))
+      .map((r, i) => Object.assign(r, { ord: i + 1, cat: r.cat ? r.cat.charAt(0).toUpperCase() + r.cat.slice(1) : "Sem categoria" }));
+  }
+
+  function daysLeft(){
+    const today = new Intl.DateTimeFormat("en-CA", {timeZone:"America/Sao_Paulo", year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date());
+    return Math.round((Date.parse(DEADLINE + "T00:00:00Z") - Date.parse(today + "T00:00:00Z")) / 86400000);
+  }
+
+  function renderPrazo(){
+    const d = daysLeft(), cta = $("cta");
+    if (d > 1){ $("sPrazo").textContent = d + " dias"; $("sPrazoSub").textContent = "para fechar, em 10/11 (terça)"; }
+    else if (d === 1){ $("sPrazo").textContent = "1 dia"; $("sPrazoSub").textContent = "último dia é amanhã, 10/11"; }
+    else if (d === 0){ $("sPrazo").textContent = "Hoje"; $("sPrazoSub").textContent = "último dia de inscrição"; }
+    else { $("sPrazo").textContent = "Fechadas"; $("sPrazoSub").textContent = "o prazo foi 10/11"; cta.classList.add("closed"); cta.querySelector("p").firstChild.textContent = "Inscrições encerradas. Nos vemos em quadra no dia 15/11."; }
+  }
+
+  function catLabel(c){ return c === "Iniciante" || c === "Sem categoria" ? c : "Categoria " + c; }
+
+  function render(){
+    const rows = state.rows || [];
+    $("sDuplas").textContent = state.rows ? rows.length : "–";
+    $("sAtletas").textContent = state.rows ? rows.length * 2 : "–";
+
+    const cats = $("cats"); cats.replaceChildren();
+    const order = CATS.concat([...new Set(rows.map(r => r.cat))].filter(c => !CATS.includes(c)));
+    ["Todas"].concat(order).forEach(c => {
+      const n = c === "Todas" ? rows.length : rows.filter(r => r.cat === c).length;
+      const b = el("button", "chip", (c === "Todas" ? "Todas" : (c === "Iniciante" || c === "Sem categoria" ? c : "Cat. " + c)) + " · " + n);
+      b.type = "button"; b.setAttribute("aria-pressed", String(state.cat === c));
+      b.addEventListener("click", () => { state.cat = c; render(); });
+      cats.append(b);
+    });
+
+    const list = $("list"); list.replaceChildren();
+    if (!state.rows) return;
+    if (!rows.length){
+      const s = el("div", "state"); s.append(el("h2", null, "As primeiras duplas aparecem aqui"), el("p", null, "Assim que as inscrições forem confirmadas no formulário, os nomes entram nesta lista."));
+      list.append(s); return;
+    }
+    order.forEach(c => {
+      if (state.cat !== "Todas" && state.cat !== c) return;
+      const items = rows.filter(r => r.cat === c); if (!items.length) return;
+      const g = el("section");
+      const h = el("div", "group-head"); h.append(el("h2", null, catLabel(c)), el("span", null, items.length === 1 ? "1 dupla" : items.length + " duplas"));
+      const ul = el("ul", "pairs");
+      items.forEach(r => {
+        const li = el("li", "pair");
+        li.append(el("span", "ord", String(r.ord).padStart(2, "0")), el("span", "name a", r.a), el("span", "amp", "&"), el("span", "name b", r.b || "Dupla a definir"));
+        ul.append(li);
+      });
+      g.append(h, ul); list.append(g);
+    });
+  }
+
+  function skeleton(){
+    const list = $("list"); list.replaceChildren();
+    const g = el("section"); const h = el("div", "group-head"); h.append(el("h2", null, "Carregando duplas…")); g.append(h);
+    for (let i = 0; i < 3; i++){ const li = el("div", "pair"); li.append(el("span", "ord", "··"), el("div", "sk"), el("span", "amp", ""), el("div", "sk")); g.append(li); }
+    list.append(g);
+  }
+
+  async function load(){
+    if (state.loading) return;
+    if (!CSV_URL){
+      $("stamp").textContent = "Lista em preparação";
+      const list = $("list"); list.replaceChildren();
+      const s = el("div", "state"); s.append(el("h2", null, "Lista em preparação"), el("p", null, "Em breve as duplas inscritas aparecem aqui."));
+      list.append(s); return;
+    }
+    state.loading = true; const btn = $("refreshBtn"); btn.classList.add("spin"); btn.disabled = true;
+    if (!state.rows) skeleton();
+    try {
+      const res = await fetch(CSV_URL + (CSV_URL.includes("?") ? "&" : "?") + "t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const text = await res.text();
+      if (/^\s*</.test(text)) throw new Error("A planilha não está publicada como CSV.");
+      state.rows = toRows(text); state.last = new Date();
+      $("stamp").textContent = "Atualizado às " + state.last.toLocaleTimeString("pt-BR", {hour:"2-digit", minute:"2-digit", timeZone:"America/Sao_Paulo"});
+      render();
+    } catch (e){
+      if (state.rows) $("stamp").textContent = "Sem conexão agora · mostrando a última lista";
+      else {
+        $("stamp").textContent = "Não foi possível carregar";
+        const list = $("list"); list.replaceChildren();
+        const s = el("div", "state"); s.append(el("h2", null, "Não deu para carregar a lista"), el("p", null, "Confira a sua internet e toque em Atualizar."));
+        list.append(s);
+      }
+    } finally {
+      state.loading = false; btn.classList.remove("spin"); btn.disabled = false;
+    }
+  }
+
+  $("refreshBtn").addEventListener("click", load);
+  setInterval(() => { if (document.visibilityState === "visible") load(); }, AUTO_MS);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && state.last && Date.now() - state.last > 30000) load(); });
+
+  renderPrazo(); render(); load();
+})();
+</script>
+</body>
+</html>
