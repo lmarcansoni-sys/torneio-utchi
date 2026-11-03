@@ -75,6 +75,7 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
 .name{font-size:17px;font-weight:500;overflow-wrap:anywhere}
 .amp{color:var(--muted);font-weight:300;font-size:17px}
 
+.fila-note{margin:12px 0 0;font-size:13.5px;color:var(--muted);max-width:60ch}
 .state{border:1px dashed var(--line);border-radius:18px;padding:36px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
 .state h2{margin:0;font-size:20px;font-weight:500}
 .state p{margin:0;color:var(--muted);max-width:50ch}
@@ -123,13 +124,13 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
   </section>
 
   <section class="board" aria-label="Resumo">
-    <div class="stat"><span class="label">Duplas</span><span class="num" id="sDuplas">–</span><span class="sub">inscritas até agora</span></div>
+    <div class="stat"><span class="label">Duplas</span><span class="num" id="sDuplas">–</span><span class="sub" id="sDuplasSub">inscritas até agora</span></div>
     <div class="stat"><span class="label">Atletas</span><span class="num" id="sAtletas">–</span><span class="sub">em quadra no dia 15</span></div>
     <div class="stat"><span class="label">Inscrições</span><span class="num" id="sPrazo">–</span><span class="sub" id="sPrazoSub">até 10/11, terça</span></div>
   </section>
 
   <section class="cta" id="cta">
-    <p>Ainda dá tempo de entrar com a sua dupla.<span>R$ 120,00 por atleta, com regata Utchi Dry Fit e brindes no kit.</span></p>
+    <p>Ainda dá tempo de entrar com a sua dupla.<span>R$ 120,00 por atleta, com regata Utchi Dry Fit e brindes no kit. A Categoria C está lotada: novas inscrições na C entram na fila de espera.</span></p>
     <a href="https://tally.so/r/1WA9l4" target="_blank" rel="noopener">Fazer inscrição ↗</a>
   </section>
 
@@ -148,6 +149,7 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
   const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqtURvNRbejDJPBfXqJoo2tQ9Jt2O3XoTFNLQLleBD95a59apmDJtHe238ZyqEg-YNkQJzfJ7rDlhy/pub?gid=1613053172&single=true&output=csv";
   const DEADLINE = "2026-11-10";
   const CATS = ["B","C","D","Iniciante"];
+  const FILA_CAT = "C"; // categoria lotada: novas inscrições nela entram na fila de espera
   const AUTO_MS = 120000;
 
   const $ = (id) => document.getElementById(id);
@@ -182,10 +184,21 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
     let iCat = head.findIndex(h => h.includes("categoria"));
     let body = grid.slice(1);
     if (iNome < 0 || iCat < 0){ iNome = 0; iDupla = 1; iCat = 2; body = grid; }
+    let pos = 0, ord = 0;
     return body
-      .map(r => ({ a: title(r[iNome]), b: title(r[iDupla]), cat: title((r[iCat] || "").replace(/^categoria\s+/i, "")) }))
+      .map(r => {
+        const raw = title(r[iCat] || "");
+        // "Categoria C · lotada (fila de espera)" = inscrição feita depois que a C lotou.
+        const fila = /fila|lotada/i.test(raw);
+        const cat = title(raw.replace(/^categoria\s+/i, "").replace(/\s*[·(].*$/, ""));
+        return { a: title(r[iNome]), b: title(r[iDupla]), cat, fila };
+      })
       .filter(r => r.a && !/^teste\b/i.test(r.a) && !/^teste\b/i.test(r.b))
-      .map((r, i) => Object.assign(r, { ord: i + 1, cat: r.cat ? r.cat.charAt(0).toUpperCase() + r.cat.slice(1) : "Sem categoria" }));
+      .map(r => Object.assign(r, {
+        cat: r.cat ? r.cat.charAt(0).toUpperCase() + r.cat.slice(1) : "Sem categoria",
+        ord: r.fila ? null : ++ord,
+        pos: r.fila ? ++pos : null,
+      }));
   }
 
   function daysLeft(){
@@ -204,15 +217,19 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
   function catLabel(c){ return c === "Iniciante" || c === "Sem categoria" ? c : "Categoria " + c; }
 
   function render(){
-    const rows = state.rows || [];
+    const all = state.rows || [];
+    const rows = all.filter(r => !r.fila), fila = all.filter(r => r.fila);
     $("sDuplas").textContent = state.rows ? rows.length : "–";
     $("sAtletas").textContent = state.rows ? rows.length * 2 : "–";
+    $("sDuplasSub").textContent = fila.length ? "inscritas · " + fila.length + " na fila da " + FILA_CAT : "inscritas até agora";
 
     const cats = $("cats"); cats.replaceChildren();
     const order = CATS.concat([...new Set(rows.map(r => r.cat))].filter(c => !CATS.includes(c)));
-    ["Todas"].concat(order).forEach(c => {
-      const n = c === "Todas" ? rows.length : rows.filter(r => r.cat === c).length;
-      const b = el("button", "chip", (c === "Todas" ? "Todas" : (c === "Iniciante" || c === "Sem categoria" ? c : "Cat. " + c)) + " · " + n);
+    if (state.cat === "Fila" && !fila.length) state.cat = "Todas";
+    ["Todas"].concat(order).concat(fila.length ? ["Fila"] : []).forEach(c => {
+      const n = c === "Todas" ? rows.length : c === "Fila" ? fila.length : rows.filter(r => r.cat === c).length;
+      const label = c === "Todas" ? "Todas" : c === "Fila" ? "Fila da " + FILA_CAT : (c === "Iniciante" || c === "Sem categoria" ? c : "Cat. " + c);
+      const b = el("button", "chip", label + " · " + n);
       b.type = "button"; b.setAttribute("aria-pressed", String(state.cat === c));
       b.addEventListener("click", () => { state.cat = c; render(); });
       cats.append(b);
@@ -220,25 +237,36 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
 
     const list = $("list"); list.replaceChildren();
     if (!state.rows) return;
-    if (!rows.length){
+    if (!all.length){
       const s = el("div", "state"); s.append(el("h2", null, "As primeiras duplas aparecem aqui"), el("p", null, "Assim que as inscrições forem confirmadas no formulário, os nomes entram nesta lista."));
       list.append(s); return;
     }
+    const pairItem = (ordText, r) => {
+      const li = el("li", "pair");
+      const duo = el("span", "duo");
+      duo.append(el("span", "name", r.a), el("span", "amp", "&"), el("span", "name", r.b || "Dupla a definir"));
+      li.append(el("span", "ord", ordText), duo);
+      return li;
+    };
     order.forEach(c => {
       if (state.cat !== "Todas" && state.cat !== c) return;
       const items = rows.filter(r => r.cat === c); if (!items.length) return;
       const g = el("section");
-      const h = el("div", "group-head"); h.append(el("h2", null, catLabel(c)), el("span", null, items.length === 1 ? "1 dupla" : items.length + " duplas"));
+      const h = el("div", "group-head");
+      h.append(el("h2", null, c === FILA_CAT ? catLabel(c) + " · lotada" : catLabel(c)), el("span", null, items.length === 1 ? "1 dupla" : items.length + " duplas"));
       const ul = el("ul", "pairs");
-      items.forEach(r => {
-        const li = el("li", "pair");
-        const duo = el("span", "duo");
-        duo.append(el("span", "name", r.a), el("span", "amp", "&"), el("span", "name", r.b || "Dupla a definir"));
-        li.append(el("span", "ord", String(r.ord).padStart(2, "0")), duo);
-        ul.append(li);
-      });
+      items.forEach(r => ul.append(pairItem(String(r.ord).padStart(2, "0"), r)));
       g.append(h, ul); list.append(g);
     });
+    if (fila.length && (state.cat === "Todas" || state.cat === "Fila" || state.cat === FILA_CAT)){
+      const g = el("section");
+      const h = el("div", "group-head");
+      h.append(el("h2", null, "Fila de espera · " + catLabel(FILA_CAT)), el("span", null, fila.length === 1 ? "1 dupla" : fila.length + " duplas"));
+      const note = el("p", "fila-note", "A Categoria " + FILA_CAT + " está lotada. O time Utchi chama as duplas da fila, por ordem, para propor outra categoria.");
+      const ul = el("ul", "pairs");
+      fila.forEach(r => ul.append(pairItem(r.pos + "ª", r)));
+      g.append(h, note, ul); list.append(g);
+    }
   }
 
   function skeleton(){
