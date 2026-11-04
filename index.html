@@ -159,6 +159,14 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
   function norm(s){ return (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim(); }
   function title(s){ return (s || "").trim().replace(/\s+/g, " "); }
 
+  // Nome e sobrenome com inicial maiúscula ("ana paula da silva" vira "Ana Paula da Silva").
+  const PARTICULAS = new Set(["da","de","do","das","dos","e","di","del","van","von"]);
+  function nome(s){
+    return title(s).toLocaleLowerCase("pt-BR").split(" ").map((w, i) =>
+      i > 0 && PARTICULAS.has(w) ? w : w.replace(/(^|[-'’])(\p{L})/gu, (m, sep, ch) => sep + ch.toLocaleUpperCase("pt-BR"))
+    ).join(" ");
+  }
+
   function parseCSV(text){
     const rows = []; let row = [], cell = "", q = false;
     for (let i = 0; i < text.length; i++){
@@ -191,7 +199,7 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
         // "Categoria C · lotada (fila de espera)" = inscrição feita depois que a C lotou.
         const fila = /fila|lotada/i.test(raw);
         const cat = title(raw.replace(/^categoria\s+/i, "").replace(/\s*[·(].*$/, ""));
-        return { a: title(r[iNome]), b: title(r[iDupla]), cat, fila };
+        return { a: nome(r[iNome]), b: nome(r[iDupla]), cat, fila };
       })
       .filter(r => r.a && !/^teste\b/i.test(r.a) && !/^teste\b/i.test(r.b))
       .map(r => Object.assign(r, {
