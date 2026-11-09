@@ -58,7 +58,6 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
 .cta p span{display:block;font-size:13px;opacity:.7;margin-top:2px}
 .cta a{display:inline-flex;align-items:center;gap:8px;background:var(--invert-ink);color:var(--invert-bg);text-decoration:none;border-radius:999px;padding:12px 20px;font-weight:500;font-size:14px;white-space:nowrap}
 .cta a:hover{opacity:.9}
-.cta.closed a{display:none}
 
 .cats{display:flex;gap:8px;flex-wrap:wrap}
 .chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;font-variant-numeric:tabular-nums}
@@ -130,8 +129,7 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
   </section>
 
   <section class="cta" id="cta">
-    <p>Ainda dá tempo de entrar com a sua dupla.<span>R$ 120,00 por atleta, com regata Utchi Dry Fit e brindes no kit. A Categoria C está lotada: novas inscrições na C entram na fila de espera.</span></p>
-    <a href="https://tally.so/r/1WA9l4" target="_blank" rel="noopener">Fazer inscrição ↗</a>
+    <p>Inscrições encerradas. Nos vemos em quadra no dia 15/11.<span>Qualquer dúvida, é só chamar o time Utchi no WhatsApp.</span></p>
   </section>
 
   <nav class="cats" id="cats" aria-label="Categorias"></nav>
@@ -147,7 +145,6 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
 (function(){
   /* Link CSV da aba "publico" da planilha (Arquivo → Compartilhar → Publicar na Web). */
   const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqtURvNRbejDJPBfXqJoo2tQ9Jt2O3XoTFNLQLleBD95a59apmDJtHe238ZyqEg-YNkQJzfJ7rDlhy/pub?gid=1613053172&single=true&output=csv";
-  const DEADLINE = "2026-11-10";
   const CATS = ["B","C","D","Iniciante"];
   const FILA_CAT = "C"; // categoria lotada: novas inscrições nela entram na fila de espera
   const AUTO_MS = 120000;
@@ -209,17 +206,9 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
       }));
   }
 
-  function daysLeft(){
-    const today = new Intl.DateTimeFormat("en-CA", {timeZone:"America/Sao_Paulo", year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date());
-    return Math.round((Date.parse(DEADLINE + "T00:00:00Z") - Date.parse(today + "T00:00:00Z")) / 86400000);
-  }
-
   function renderPrazo(){
-    const d = daysLeft(), cta = $("cta");
-    if (d > 1){ $("sPrazo").textContent = d + " dias"; $("sPrazoSub").textContent = "para fechar, em 10/11 (terça)"; }
-    else if (d === 1){ $("sPrazo").textContent = "1 dia"; $("sPrazoSub").textContent = "último dia é amanhã, 10/11"; }
-    else if (d === 0){ $("sPrazo").textContent = "Hoje"; $("sPrazoSub").textContent = "último dia de inscrição"; }
-    else { $("sPrazo").textContent = "Fechadas"; $("sPrazoSub").textContent = "o prazo foi 10/11"; cta.classList.add("closed"); cta.querySelector("p").firstChild.textContent = "Inscrições encerradas. Nos vemos em quadra no dia 15/11."; }
+    $("sPrazo").textContent = "Fechadas";
+    $("sPrazoSub").textContent = "vagas preenchidas";
   }
 
   function catLabel(c){ return c === "Iniciante" || c === "Sem categoria" ? c : "Categoria " + c; }
