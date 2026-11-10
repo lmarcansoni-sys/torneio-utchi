@@ -27,6 +27,7 @@ html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .wrap{max-width:960px;margin:0 auto;padding-block:max(28px, env(safe-area-inset-top, 0px)) max(64px, env(safe-area-inset-bottom, 0px));padding-left:max(18px, env(safe-area-inset-left, 0px));padding-right:max(18px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:40px}
 button{font:inherit;color:inherit}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
 .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -59,6 +60,13 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
 .cta a{display:inline-flex;align-items:center;gap:8px;background:var(--invert-ink);color:var(--invert-bg);text-decoration:none;border-radius:999px;padding:12px 20px;font-weight:500;font-size:14px;white-space:nowrap}
 .cta a:hover{opacity:.9}
 .cta a:focus-visible{outline-color:var(--invert-ink)}
+
+.pix{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;border:1px solid var(--line);border-radius:20px;padding:20px 24px}
+.pix p{margin:6px 0 0;font-size:14px;color:var(--muted);max-width:46ch}
+.pix-key{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.pix-key .label{flex-basis:100%}
+.pix-key code{font-family:var(--font);font-size:22px;font-weight:500;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.icon-btn.ok{background:var(--invert-bg);color:var(--invert-ink);border-color:var(--invert-bg)}
 
 .cats{display:flex;gap:8px;flex-wrap:wrap}
 .chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;font-variant-numeric:tabular-nums}
@@ -132,6 +140,22 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
   <section class="cta" id="cta">
     <p>Inscrições encerradas. Chaves, jogos e resultados ao vivo no dia 15/11.<span>Qualquer dúvida, é só chamar o time Utchi no WhatsApp.</span></p>
     <a href="https://ao-vivo.utchisportstyle.com.br">Chaves e resultados <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+  </section>
+
+  <section class="pix" aria-label="Pagamento por Pix">
+    <div>
+      <span class="label">Pagamento da inscrição</span>
+      <p>R$ 120,00 por atleta, por Pix. Depois de pagar, envie o comprovante para o time Utchi no WhatsApp.</p>
+    </div>
+    <div class="pix-key">
+      <span class="label">Chave Pix · CNPJ</span>
+      <code id="pixKey">35.173.410/0001-19</code>
+      <button class="icon-btn" id="copyPix" type="button" aria-describedby="pixKey">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        <span id="copyPixLabel">Copiar chave</span>
+      </button>
+      <span class="sr-only" id="copyPixStatus" role="status"></span>
+    </div>
   </section>
 
   <nav class="cats" id="cats" aria-label="Categorias"></nav>
@@ -309,6 +333,28 @@ h1{font-weight:400;font-size:clamp(46px,10vw,92px);line-height:.95;letter-spacin
   $("refreshBtn").addEventListener("click", load);
   setInterval(() => { if (document.visibilityState === "visible") load(); }, AUTO_MS);
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && state.last && Date.now() - state.last > 30000) load(); });
+
+  /* Copia a chave Pix só com números (o banco aceita assim). */
+  const PIX_KEY = "35173410000119";
+  let pixTimer;
+  async function copyPix(){
+    let ok = false;
+    try { await navigator.clipboard.writeText(PIX_KEY); ok = true; }
+    catch (e) {
+      const t = document.createElement("textarea");
+      t.value = PIX_KEY; t.setAttribute("readonly", ""); t.style.position = "fixed"; t.style.opacity = "0";
+      document.body.appendChild(t); t.select();
+      try { ok = document.execCommand("copy"); } catch (e2) { ok = false; }
+      t.remove();
+    }
+    const btn = $("copyPix");
+    $("copyPixLabel").textContent = ok ? "Chave copiada" : "Copie a chave acima";
+    $("copyPixStatus").textContent = ok ? "Chave Pix copiada." : "Não deu para copiar. Selecione a chave e copie.";
+    btn.classList.toggle("ok", ok);
+    clearTimeout(pixTimer);
+    pixTimer = setTimeout(() => { $("copyPixLabel").textContent = "Copiar chave"; $("copyPixStatus").textContent = ""; btn.classList.remove("ok"); }, 2500);
+  }
+  $("copyPix").addEventListener("click", copyPix);
 
   renderPrazo(); render(); load();
 })();
